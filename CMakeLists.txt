@@ -143,13 +143,19 @@ find_package(LibXslt REQUIRED)
 find_package(BZip2)
 
 # PThread
-set(CMAKE_THREAD_PREFER_PTHREAD)
-set(THREADS_PREFER_PTHREAD_FLAG)
-set(THREADS_USE_PTHREADS_WIN32 true)
-find_package(Threads REQUIRED)
-check_library_exists(pthread pthread_timedjoin_np "" HAVE_PTHREAD_TIMEDJOIN_NP)
-check_library_exists(pthread pthread_setname_np "" HAVE_PTHREAD_SETNAME_NP)
-check_library_exists(pthread pthread_getname_np "" HAVE_PTHREAD_GETNAME_NP)
+if (WIN32)
+    set(CMAKE_THREAD_PREFER_PTHREAD)
+    set(THREADS_PREFER_PTHREAD_FLAG)
+    set(THREADS_USE_PTHREADS_WIN32 true)
+    find_package(pthread CONFIG REQUIRED)
+    set(CMAKE_THREAD_LIBS_INIT ${PThreads4W_LIBRARY})
+    check_library_exists(pthread pthread_timedjoin_np "" HAVE_PTHREAD_TIMEDJOIN_NP)
+    check_library_exists(pthread pthread_setname_np "" HAVE_PTHREAD_SETNAME_NP)
+    check_library_exists(pthread pthread_getname_np "" HAVE_PTHREAD_GETNAME_NP)
+else()
+    set(THREADS_USE_PTHREADS_WIN32 -pthread)
+endif()
+ 
 
 # WITH_CRYPTO
 set(WITH_CRYPTO "gcrypt" CACHE STRING "gcrypt|nss3")
