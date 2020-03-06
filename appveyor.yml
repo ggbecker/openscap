@@ -13,7 +13,7 @@ before_build:
 - cmd: >-
     cd build
 
-    cmake -DENABLE_PYTHON3=FALSE -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake ..
+    cmake -DENABLE_SCE=TRUE -DENABLE_PYTHON3=FALSE -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake ..
 build:
   project: c:\projects\openscap\build\openscap.sln
   verbosity: minimal
