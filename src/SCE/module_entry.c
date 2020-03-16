@@ -32,7 +32,7 @@
 #include "sce_engine_api.h"
 #include "XCCDF_POLICY/public/check_engine_plugin.h"
 
-#include <libgen.h>
+// #include <libgen.h>
 #include <string.h>
 
 static int sce_engine_register(struct xccdf_policy_model *model, const char *path_hint, void **user_data)

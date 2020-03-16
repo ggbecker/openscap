@@ -41,7 +41,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include <wait.h>
+#include <sys/wait.h>
 #include <unistd.h>
 #include <sys/stat.h>
 #include <assert.h>
@@ -52,7 +52,7 @@
 #endif
 #include <limits.h>
 #include <unistd.h>
-#include <libgen.h>
+// #include <libgen.h>
 
 struct sce_check_result
 {
