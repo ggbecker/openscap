@@ -57,10 +57,9 @@
 #include <sys/types.h>
 #if defined(OS_LINUX)
 #include <sys/prctl.h>
+#include <libgen.h>
 #endif
 #include <limits.h>
-#include <unistd.h>
-// #include <libgen.h>
 
 struct sce_check_result
 {
