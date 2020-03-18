@@ -567,6 +567,7 @@ xccdf_test_result_type_t sce_engine_eval_rule(struct xccdf_policy *policy, const
 			close(stdout_pipefd[1]);
 			close(stderr_pipefd[1]);
 
+#if defined(OS_LINUX)
 			const int flag_stdout = fcntl(stdout_pipefd[0], F_GETFL, 0);
 			if (flag_stdout == -1) {
 				oscap_seterr(OSCAP_EFAMILY_SCE, "Failed to obtain status of stdout pipe: %s",
@@ -600,6 +601,7 @@ xccdf_test_result_type_t sce_engine_eval_rule(struct xccdf_policy *policy, const
 				return XCCDF_RESULT_ERROR;
 			}
 
+#endif
 			// we have to read from both pipes at the same time to avoid stalling
 			struct oscap_string *stdout_string = oscap_string_new();
 			struct oscap_string *stderr_string = oscap_string_new();

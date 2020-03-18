@@ -80,9 +80,12 @@ static int sce_engine_export_results(struct xccdf_policy_model *model, bool vali
 	while(sce_check_result_iterator_has_more(it))
 	{
 		struct sce_check_result *check_result = sce_check_result_iterator_next(it);
-		char target[2 + strlen(sce_check_result_get_basename(check_result)) + 11 + 1];
-		snprintf(target, sizeof(target), "./%s.result.xml", sce_check_result_get_basename(check_result));
+		int target_len = 2 + strlen(sce_check_result_get_basename(check_result)) + 11 + 1;
+		char* target = malloc(target_len * sizeof(char));
+		snprintf(target, target_len, "./%s.result.xml", sce_check_result_get_basename(check_result));
 		sce_check_result_export(check_result, target);
+		if(target != NULL)
+			free(target);
 	}
 
 	sce_check_result_iterator_free(it);
