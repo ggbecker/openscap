@@ -41,7 +41,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#ifdef OS_WINDOWS
+#include "common/win32/sys/wait.h"
+#else
 #include <sys/wait.h>
+#endif
 #include <unistd.h>
 #include <sys/stat.h>
 #include <assert.h>
