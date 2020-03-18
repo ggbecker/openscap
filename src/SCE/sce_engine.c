@@ -46,7 +46,11 @@
 #else
 #include <sys/wait.h>
 #endif
+#ifdef OS_WINDOWS
+#include <io.h>
+#else
 #include <unistd.h>
+#endif
 #include <sys/stat.h>
 #include <assert.h>
 #include <fcntl.h>
