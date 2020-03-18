@@ -41,18 +41,25 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include <wait.h>
+#ifdef OS_WINDOWS
+#include "common/win32/sys/wait.h"
+#else
+#include <sys/wait.h>
+#endif
+#ifdef OS_WINDOWS
+#include <io.h>
+#else
 #include <unistd.h>
+#endif
 #include <sys/stat.h>
 #include <assert.h>
 #include <fcntl.h>
 #include <sys/types.h>
 #if defined(OS_LINUX)
 #include <sys/prctl.h>
+#include <libgen.h>
 #endif
 #include <limits.h>
-#include <unistd.h>
-#include <libgen.h>
 
 struct sce_check_result
 {
@@ -380,7 +387,11 @@ xccdf_test_result_type_t sce_engine_eval_rule(struct xccdf_policy *policy, const
 		return XCCDF_RESULT_NOT_CHECKED;
 	}
 
+#if defined(OS_WINDOWS)
+	if (access(tmp_href, F_OK | R_OK)) // Execution permission on windows maps to READ=04
+#else
 	if (access(tmp_href, F_OK | X_OK))
+#endif
 	{
 		// use the sce wrapper if it's not possible to acquire +x rights
 		use_sce_wrapper = true;
@@ -560,6 +571,7 @@ xccdf_test_result_type_t sce_engine_eval_rule(struct xccdf_policy *policy, const
 			close(stdout_pipefd[1]);
 			close(stderr_pipefd[1]);
 
+#if defined(OS_LINUX)
 			const int flag_stdout = fcntl(stdout_pipefd[0], F_GETFL, 0);
 			if (flag_stdout == -1) {
 				oscap_seterr(OSCAP_EFAMILY_SCE, "Failed to obtain status of stdout pipe: %s",
@@ -593,6 +605,7 @@ xccdf_test_result_type_t sce_engine_eval_rule(struct xccdf_policy *policy, const
 				return XCCDF_RESULT_ERROR;
 			}
 
+#endif
 			// we have to read from both pipes at the same time to avoid stalling
 			struct oscap_string *stdout_string = oscap_string_new();
 			struct oscap_string *stderr_string = oscap_string_new();
