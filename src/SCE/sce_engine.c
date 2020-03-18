@@ -387,7 +387,11 @@ xccdf_test_result_type_t sce_engine_eval_rule(struct xccdf_policy *policy, const
 		return XCCDF_RESULT_NOT_CHECKED;
 	}
 
+#if defined(OS_WINDOWS)
+	if (access(tmp_href, F_OK | R_OK)) // Execution permission on windows maps to READ=04
+#else
 	if (access(tmp_href, F_OK | X_OK))
+#endif
 	{
 		// use the sce wrapper if it's not possible to acquire +x rights
 		use_sce_wrapper = true;
