@@ -47,18 +47,21 @@ Authors:
         <xsl:when test="starts-with($href, 'http://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-171')">
             <xsl:text>NIST SP 800-171</xsl:text>
         </xsl:when>
-        <xsl:when test="starts-with($href, 'http://iase.disa.mil/stigs/cci/')">
+        <xsl:when test="starts-with($href, 'http://iase.disa.mil/stigs/cci/')
+                starts-with($href, 'https://public.cyber.mil/stigs/cci/') or">
             <xsl:text>DISA CCI</xsl:text>
         </xsl:when>
         <!-- SRG weblinks can be subject to change. Keep the old ones for compatibility and add any new ones -->
         <xsl:when test="starts-with($href, 'http://iase.disa.mil/stigs/srgs/') or 
                 starts-with($href, 'http://iase.disa.mil/stigs/os/general/Pages/index.aspx') or
-                starts-with($href, 'http://iase.disa.mil/stigs/app-security/app-servers/Pages/general.aspx')">
+                starts-with($href, 'http://iase.disa.mil/stigs/app-security/app-servers/Pages/general.aspx') or 
+                starts-with($href, 'https://public.cyber.mil/stigs/downloads/?_dl_facet_stigs=operating-systems%2Cgeneral-purpose-os')">
             <xsl:text>DISA SRG</xsl:text>
         </xsl:when>
         <!-- STIG weblinks can be subject to change. Keep the old ones for compatibility and add any new ones -->
         <xsl:when test="starts-with($href, 'http://iase.disa.mil/stigs/os/') or
-                starts-with($href, 'http://iase.disa.mil/stigs/app-security/')">
+                starts-with($href, 'http://iase.disa.mil/stigs/app-security/') or 
+                starts-with($href, 'https://public.cyber.mil/stigs/')">
             <xsl:text>DISA STIG</xsl:text>
         </xsl:when>
         <xsl:when test="starts-with($href, 'https://www.pcisecuritystandards.org/')">
@@ -79,7 +82,8 @@ Authors:
         <xsl:when test="starts-with($href, 'https://www.iso.org/standard/54534.html')">
             <xsl:text>ISO 27001-2013</xsl:text>
         </xsl:when>
-        <xsl:when test="starts-with($href, 'https://iase.disa.mil/stigs/pages/stig-viewing-guidance')">
+        <xsl:when test="starts-with($href, 'https://iase.disa.mil/stigs/pages/stig-viewing-guidance') or
+                starts-with($href, 'https://public.cyber.mil/stigs/srg-stig-tools')">
             <xsl:text>STIG Viewer</xsl:text>
         </xsl:when>
         <xsl:otherwise>

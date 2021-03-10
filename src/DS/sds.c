@@ -1167,6 +1167,16 @@ xmlDocPtr ds_sds_compose_xmlDoc_from_xccdf_source(struct oscap_source *xccdf_sou
 
 	xmlSetProp(datastream, BAD_CAST "use-case", BAD_CAST "OTHER");
 
+	char file_timestamp[32];
+	time_t s_time;
+	struct tm * timeinfo;
+	s_time = time(NULL);
+	timeinfo = localtime ( &rawtime );
+	
+	strncpy(file_timestamp, "0000-00-00T00:00:00", sizeof(file_timestamp));
+	strftime(file_timestamp, 32, "%Y-%m-%dT%H:%M:%S", localtime (&s_time););
+	xmlSetProp(datastream, BAD_CAST "timestamp", BAD_CAST file_timestamp);
+
 	xmlNodePtr dictionaries = xmlNewNode(ds_ns, BAD_CAST "dictionaries");
 	xmlAddChild(datastream, dictionaries);
 
